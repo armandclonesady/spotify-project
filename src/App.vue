@@ -19,6 +19,10 @@ export default defineComponent({
   },
   setup() {
     if (localStorage.getItem('spotify_access_token') === null) {
+      if (localStorage.getItem('client_id') === null) {
+        localStorage.setItem('client_id', "6de07f84641542c2aea479b17609076a");
+        localStorage.setItem('client_secret', "aa6123b9cc4d48289c69c284008d3100");
+      }
       getToken();
     }
     console.log("access_token: ", localStorage.getItem('spotify_access_token'));

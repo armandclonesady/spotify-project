@@ -44,11 +44,6 @@ export default defineComponent({
             });
         }
 
-        computed(() => {
-            console.log(searchResults.value);
-            return true;
-        });
-
         return { searchQuerry, allowedTypes, searchType, searchResults, searchSpotify };
     },
 });
