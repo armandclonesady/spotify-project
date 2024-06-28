@@ -1,19 +1,18 @@
 <template>
     <div @click="onClick">
-        <!-- <div v-for="type in allowedTypes" :key="type">
-            <div v-if="type === item.type">
-                <p> this is {{ type }}</p>
-            </div>
-        </div> -->
-        <p> {{ item.name }}</p>
+        <AlbumComponent v-if="item.type === 'album'" :album="item"/>
     </div>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue';
 import allowedTypes from '@/types/searchType';
+import AlbumComponent from '@/components/AlbumComponent.vue';
 
 export default defineComponent({
+    components: {
+        AlbumComponent
+    },
     props: {
         result: {
             type: Object,
@@ -32,16 +31,5 @@ export default defineComponent({
 </script>
 
 <style>
-.item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5dvh;
-    margin: 3dvh 20%;
-    border-radius: 3dvw;
 
-    background: var(--primary);
-    color: var(--white);
-}
 </style>
