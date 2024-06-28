@@ -1,14 +1,14 @@
 <template>
-    <div class="item" v-for="item in props.results" :key="item">
-         <h3> {{ item.name }}</h3>
-         <ItemPreview :result="item"></ItemPreview>
-
+    <div class="results">
+        <div class="item" v-for="item in props.results" :key="item">
+            <ItemPreview :result="item"></ItemPreview>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import ItemPreview from '@/components/ItemPreview.vue';
-import { defineComponent, ref } from 'vue'
+import ItemPreview from '@/views/ItemPreview.vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
     props: {
@@ -28,16 +28,30 @@ export default defineComponent({
 </script>
 
 <style>
+.results {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0.5dvh;
-    margin: 3dvh 20%;
-    border-radius: 3dvw;
+    margin: 4%;
+    width: 22%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50px;
 
     background: var(--primary);
     color: var(--white);
+}
+
+.item:hover {
+    background: var(--spotify-green);
+    cursor: pointer;
 }
 </style>

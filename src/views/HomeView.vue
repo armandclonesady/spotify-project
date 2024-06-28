@@ -2,11 +2,17 @@
   <div class="home">
     <h1>Home</h1>
     <h2> Welcome to your one-stop shop to use <a href="https://fr.wikipedia.org/wiki/Spotify">Spotify</a> by NOT using <a href="https://open.spotify.com/">Spotify</a>!</h2>
-    <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim aliquam minima nulla ducimus, odio blanditiis ea sint dignissimos, perferendis in, placeat delectus voluptatem deleniti architecto rerum praesentium suscipit repellendus quos.
-    Et consequatur quibusdam temporibus expedita nulla. Vitae praesentium nobis ad magnam perferendis possimus sint? Sit cumque quam vero delectus illum. Soluta error, consequuntur aliquam quam quasi veritatis cupiditate consectetur. Officiis?
-    Quae iure inventore laudantium excepturi et, explicabo numquam obcaecati. Harum pariatur laudantium eligendi dolor consequuntur mollitia. Nisi voluptatum perferendis, officia aspernatur dolorem magnam esse? Suscipit soluta deserunt aperiam officiis delectus!
-    Voluptates cupiditate nam repudiandae, minima eaque voluptatem quam accusantium et corporis delectus? Voluptatum dolore neque nam delectus nobis. Dolorum ratione sunt id iure, expedita consequatur rerum non impedit beatae ab.
-    Unde, rem vel consequatur ullam harum sint molestiae aliquid excepturi repudiandae eligendi quia debitis maxime distinctio minus pariatur velit aperiam laborum earum facere? Doloremque fugit, culpa ducimus libero unde ut.</p>
+    <p> 
+      This project is made to use the <a href="https://www.instagram.com/spotify/">Spotify</a> <a href="https://developer.spotify.com/documentation/web-api">API</a>, using <a href="https://vuejs.org/">VueJS</a> 3 and <a href="https://www.typescriptlang.org/">TypeScript</a> in the context of my training.
+      This project will eventually let you browse <a href="https://x.com/Spotify">Spotify</a>'s catalog aswell as let you play songs directly from it.
+      A "Login" page would also be nice but that's like on the bottom of the theoretical todo list.
+    </p>
+    <p>
+      Thanks to <a href="https://www.youtube.com/@NetNinja">Net Ninja</a> for his insanely good tutorials on <a href="https://www.youtube.com/watch?v=YrxBCBibVo0&list=PL4cUxeGkcC9hYYGbV60Vq3IXYNfDk8At1">VueJS</a> and <a href="https://www.youtube.com/watch?v=JfI5PISLr9w&list=PL4cUxeGkcC9gCtAuEdXTjNVE5bbMFo5OD">VueJS with TypeScript</a>
+    </p>
+    <p>
+      Made by <a href="https://armandclonesady.github.io/">Armand "Clone" Farid SADY</a>
+    </p>
   </div>
 </template>
 
