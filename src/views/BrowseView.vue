@@ -2,23 +2,32 @@
     <div class="browse">
         <h1>Browse</h1>
         <div class="controls">
-            <input type="text" v-model="searchQuerry" placeholder="Search for an artist, album, or song...">
-            <select name="type" v-model="searchType">
-                <option v-for="type in allowedTypes" :key="type" :value="type"> {{ type }}</option>
-            </select>
+            <form @submit.prevent="searchSpotify">
+                <div class="o">
+                    <input type="text" v-model="searchQuerry" placeholder="Search for an artist, album, or song...">
+                    <select name="type" v-model="searchType">
+                        <option @change="searchSpotify" v-for="type in allowedTypes" :key="type" :value="type"> {{ type }}</option>                
+                    </select>
+                    <!-- <div v-for="type in allowedTypes" :key="type">
+                        <input type="checkbox" :id="type" :value="type" v-model="searchTypes">
+                        <label :for="type"> {{ type }}</label>
+                    </div> -->
+                </div>
+                <input type="submit" value="Search Spotify!">
+            </form>
+            <p> {{ searchTypes }}</p>
         </div>
-        <button @click="searchSpotify"> Search </button>
         <div v-if="errorMessage">
             <p> {{ errorMessage }}</p>
         </div>
-        <div class="results">
+        <div v-else class="results">
             <ItemsView :results="searchResults"></ItemsView>
         </div>
     </div>  
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, onUpdated, ref } from 'vue';
 import { allowedTypes } from '@/functions/utils';
 import { getSearch, getToken } from '@/functions/spotifyFunctions';
 import ItemsView from './ItemsView.vue';
@@ -31,9 +40,9 @@ export default defineComponent({
     setup() {
         const searchQuerry = ref<string>('');
         const searchType = ref<string>('');
+        const searchTypes = ref<Array<string>>([]);
         const errorMessage = ref<string>('');
         const searchResults = ref<Array<any>>([]);
-
 
         const searchSpotify = async() => {
             getSearch(searchQuerry.value, searchType.value).then((response) => {
@@ -45,8 +54,8 @@ export default defineComponent({
                         searchSpotify();
                     } else {
                         const computedResults = response[searchType.value+"s"].items.filter((item: any) => {
-                            return item !== null;
-                        })
+                            return item !== null || item !== undefined;
+                        });
                         if (computedResults.length === 0) {
                             errorMessage.value = "No results found";
                         } else {
@@ -54,10 +63,11 @@ export default defineComponent({
                         }
                     }
                 }
+                console.log(searchResults.value);
             });
         }
 
-        return { searchQuerry, allowedTypes, searchType, errorMessage , searchResults, searchSpotify };
+        return { searchQuerry, allowedTypes, searchType, errorMessage , searchResults, searchSpotify, searchTypes };
     },
 });
 </script>

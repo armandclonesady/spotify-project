@@ -1,6 +1,6 @@
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const nameLimit = 15;
-const  allowedTypes : Array<string> = ['album', 'artist', 'playlist', 'track', 'show'];
+const nameLimit = 20;
+const  allowedTypes : Array<string> = ['album', 'artist', 'playlist', 'track'];
 
 const convertDate = (date: string, precision: string) => {
     const [year, month, day]: Array<number> = date.split('-').map((x: string) => parseInt(x));
@@ -34,4 +34,15 @@ const msToTime = (duration: number) => {
 
 }
 
-export {allowedTypes, convertDate, intToMonth, shortenName, nameTooLong, msToTime};
+const convertFollowers = (followers: string): string => {
+    const intFollowers = parseInt(followers);
+    if (intFollowers > 1000000) {
+        return `${(intFollowers / 1000000).toFixed(1)}M`;
+    } else if (intFollowers > 1000) {
+        return `${(intFollowers / 1000).toFixed(1)}K`;
+    } else {
+        return followers;
+    }
+}
+
+export {allowedTypes, convertDate, intToMonth, shortenName, nameTooLong, msToTime, convertFollowers};

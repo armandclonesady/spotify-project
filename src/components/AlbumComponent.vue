@@ -4,8 +4,8 @@
                 <img v-if="album.images[0].url" :src="album.images[0].url" alt="cover art">
             </div>
             <div class="info">
-                <h3> {{ albumName }}</h3>
-                <p> {{ album.artists[0].name }}</p>
+                <h4> {{ albumName }}</h4>
+                <p> {{ artist }}</p>
             </div>
         </div>
 </template>
@@ -22,10 +22,14 @@ export default {
     },
     setup(props: any) {
         const albumName = ref<string>(props.album.name);
+        const artist = ref<string>(props.album.artists[0].name);
         if (nameTooLong(albumName.value)) {
             albumName.value = shortenName(albumName.value);
         }
-        return  { props, albumName, convertDate };
+        if (nameTooLong(artist.value)) {
+            artist.value = shortenName(artist.value);
+        }
+        return  { props, albumName, artist, convertDate };
     }
 }
 </script>
@@ -33,7 +37,7 @@ export default {
 <style>
 .album {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -45,12 +49,13 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    width: 60%;
 }
 
 .coverArt img {
-    width: 100%;
-    height: 100%;
+    width: 20dvh;
+    height: 20dvh;
+    object-fit: cover;
 }
 
 .info {

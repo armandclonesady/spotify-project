@@ -18,13 +18,7 @@ export default defineComponent({
   components: {
   },
   setup() {
-    if (localStorage.getItem('spotify_access_token') === null) {
-      if (localStorage.getItem('client_id') === null) {
-        localStorage.setItem('client_id', "6de07f84641542c2aea479b17609076a");
-        localStorage.setItem('client_secret', "aa6123b9cc4d48289c69c284008d3100");
-      }
-      getToken();
-    }
+    getToken();
     console.log("access_token: ", localStorage.getItem('spotify_access_token'));
     return { getToken };
   }
@@ -39,13 +33,18 @@ export default defineComponent({
   --white: #FFFFFF;
   --black: #191414;
   --background: #2c3e50;
-
 }
 
 body {
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Nunito Sans', sans-serif; 
+  /* font-family: 'Comic Sans MS', sans-serif; */
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 400;
+  font-style: normal;
   text-align: center;
   margin: 0 10%;
+  height: 100vh;
   background-color: var(--background);
   color: var(--white);
 }
@@ -60,6 +59,18 @@ nav a {
 }
 
 nav a.router-link-exact-active, a {
-  color: var(--primary);
+  color: var(--spotify-green);
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
 }
 </style>

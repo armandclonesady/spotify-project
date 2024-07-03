@@ -18,7 +18,7 @@ const getToken = async () => {
     localStorage.setItem('spotify_access_token', data.access_token);
 }
 
-const getSearch = async (query: string, type: string) => {
+const getSearch = async (query: string, type: string): Promise<any> => {
     if (localStorage.getItem('spotify_access_token')) {
         console.log("getSearch function called");
         if (query && type) {
@@ -29,7 +29,7 @@ const getSearch = async (query: string, type: string) => {
 
             const results: Response = (await fetch(`https://api.spotify.com/v1/search?` + new URLSearchParams({
                 q: query,
-                type: type
+                type: type + ',track',
             }), {
                 method: 'GET',
                 headers: {
@@ -37,11 +37,37 @@ const getSearch = async (query: string, type: string) => {
                 },
                 
             }));
-
-            const data = await results.json();
-            return data;
+            if (results.status === 200) {
+                const data: Promise<any> = await results.json();  
+                console.log(data);              
+                return data;
+            }
         }
     }
 }
 
-export { getToken, getSearch };
+const getArtist = async (id: string | undefined): Promise<any> => {
+    if (!id) {
+        console.log("No ID provided");
+        return;
+    }
+    if (localStorage.getItem('spotify_access_token') == null) {
+        getToken();
+    }
+    const params = new URLSearchParams();
+    params.append('id', id);
+    const results: Response = (await fetch(`https://api.spotify.com/v1/artists/${id}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('spotify_access_token')
+        }
+    }));
+    if (results.status === 200) {
+        const data: Promise<any> = await results.json();
+        return data;
+    }
+    return false;
+
+}
+
+export { getToken, getSearch, getArtist };

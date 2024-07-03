@@ -1,18 +1,18 @@
 <template>
     <div class="track">
-        <p> {{ track.album.name }}</p>
+        <p> {{ trackName }}</p>
         <div class="coverArt">
             <img :src="track.album.images[0].url" alt="" class="icon">
-            <img src="../assets/play-icon.png" alt="play" class="preview" @click="playSnippet">
+            <img v-if="track.preview_url"  src="../assets/play-icon.png" alt="play" class="preview" @click.prevent="playSnippet">
         </div>
         {{ msToTime(track.duration_ms) }}
-        <h3> {{ track.artists[0].name}}</h3>
+        <h4> {{ artist }}</h4>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { msToTime } from '@/functions/utils';
+import { msToTime, nameTooLong, shortenName } from '@/functions/utils';
 export default defineComponent({
     props: {
         track: {
@@ -25,6 +25,14 @@ export default defineComponent({
         const audio = new Audio(props.track.preview_url);
         const isPlaying = ref<boolean>(false);
 
+        const trackName = ref<string>(props.track.name);
+        const artist = ref<string>(props.track.artists[0].name);
+        if (nameTooLong(trackName.value)) {
+            trackName.value = shortenName(trackName.value);
+        }
+        if (nameTooLong(artist.value)) {
+            artist.value = shortenName(artist.value);
+        }
         const playSnippet = () => {
             if (isPlaying.value) {
                 audio.pause();
@@ -35,7 +43,7 @@ export default defineComponent({
             isPlaying.value = !isPlaying.value;
         }
 
-        return { props, msToTime, playSnippet } 
+        return { props, msToTime, playSnippet, trackName, artist} 
     },
 })
 </script>
@@ -55,5 +63,10 @@ export default defineComponent({
     height: 20%;
     margin-top: 0.5dvw;
     filter: invert(100%);
+}
+
+.track h4 {
+    margin: 0;
+    padding: 0;
 }
 </style>

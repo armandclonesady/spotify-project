@@ -41,12 +41,7 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 4%;
-    width: 22%;
-    aspect-ratio: 1 / 1;
     border-radius: 50px;
-
-    background: var(--primary);
     color: var(--white);
 }
 
@@ -54,4 +49,10 @@ export default defineComponent({
     background: var(--spotify-green);
     cursor: pointer;
 }
+
+.item a {
+    text-decoration: none;
+    color: var(--white);
+}
+
 </style>

@@ -1,11 +1,15 @@
 <template>
-    <AlbumComponent v-if="item.type === 'album'" :album="item"/>
-    <ArtistComponent v-else-if="item.type === 'artist'" :artist="item"/>
-    <TrackComponent v-else-if="item.type === 'track'" :track="item"/>
-    <PlaylistComponent v-else-if="item.type === 'playlist'" :playlist="item"/>
-    <ShowComponent v-else-if="item.type === 'show'" :show="item"/>
+    <div v-if="item !== null" class="item">
+        <router-link :to="{ name: item.type, params: {id: item.id}}">
+            <AlbumComponent v-if="item.type === 'album'" :album="item"/>
+            <ArtistComponent v-else-if="item.type === 'artist'" :artist="item"/>
+            <TrackComponent v-else-if="item.type === 'track'" :track="item"/>
+            <PlaylistComponent v-else-if="item.type === 'playlist'" :playlist="item"/>
+            <ShowComponent v-else-if="item.type === 'show'" :show="item"/>
+        </router-link>
+    </div>
     <div v-else>
-        <p>Invalid item type</p>
+
     </div>
 </template>
 
@@ -28,13 +32,11 @@ export default defineComponent({
     },
     props: {
         result: {
-            type: Object,
             required: true
         }
     },
     setup(props) {
         const item = ref(props.result);
-
         const onClick = () => {
             console.log(item.value);
         };
@@ -44,5 +46,9 @@ export default defineComponent({
 </script>
 
 <style>
-
+.item {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
 </style>
