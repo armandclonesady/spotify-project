@@ -29,7 +29,9 @@ export default defineComponent({
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 :root {
   --spotify-green: #1DB954;
+  --spotify-green-50: #1DB95430;
   --primary: #B91D82;
+  --primary-50: #B91D8250;
   --white: #FFFFFF;
   --black: #191414;
   --background: #2c3e50;

@@ -1,8 +1,11 @@
+import getClientData from "./getClientData";
+
 const getToken = async () => {
     console.log("getToken function called");
     const client_key = localStorage.getItem('client_id');
     const client_secret = localStorage.getItem('client_secret');
     if (!client_key || !client_secret) {
+        getClientData();
         return;
     }
     const results: Response = (await fetch('https://accounts.spotify.com/api/token', { 
@@ -38,8 +41,7 @@ const getSearch = async (query: string, type: string): Promise<any> => {
                 
             }));
             if (results.status === 200) {
-                const data: Promise<any> = await results.json();  
-                console.log(data);              
+                const data: Promise<any> = await results.json();           
                 return data;
             }
         }
@@ -47,16 +49,31 @@ const getSearch = async (query: string, type: string): Promise<any> => {
 }
 
 const getArtist = async (id: string | undefined): Promise<any> => {
+    return getRequest(id, `https://api.spotify.com/v1/artists/${id}`);
+}
+
+const getArtistTracks = async (id: string | undefined): Promise<any> => {
+    return getRequest(id, `https://api.spotify.com/v1/artists/${id}/top-tracks`);
+};
+
+const getArtistAlbums = async (id: string | undefined): Promise<any> => {
+    return getRequest(id, `https://api.spotify.com/v1/artists/${id}/albums`);
+};
+
+const getTrack = async (id: string | undefined): Promise<any> => {
+    return getRequest(id, `https://api.spotify.com/v1/tracks/${id}`);
+}
+
+
+const getRequest = async (id: string | undefined, url: string): Promise<any> => {
     if (!id) {
         console.log("No ID provided");
-        return;
+        return false;
     }
     if (localStorage.getItem('spotify_access_token') == null) {
         getToken();
     }
-    const params = new URLSearchParams();
-    params.append('id', id);
-    const results: Response = (await fetch(`https://api.spotify.com/v1/artists/${id}`, {
+    const results: Response = (await fetch(url, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('spotify_access_token')
@@ -67,7 +84,7 @@ const getArtist = async (id: string | undefined): Promise<any> => {
         return data;
     }
     return false;
-
 }
 
-export { getToken, getSearch, getArtist };
+ 
+export { getToken, getSearch, getArtist, getArtistTracks, getArtistAlbums, getTrack};

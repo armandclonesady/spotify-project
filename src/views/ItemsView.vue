@@ -42,15 +42,18 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     border-radius: 50px;
+    margin: 1px;
     color: var(--white);
+    transition: all 0.5s;
 }
 
 .item:hover {
     background: var(--spotify-green);
     cursor: pointer;
+    transition: all 0.5s;
 }
 
-.item a {
+a {
     text-decoration: none;
     color: var(--white);
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="track">
+    <div class="track-preview">
         <p> {{ trackName }}</p>
         <div class="coverArt">
             <img :src="track.album.images[0].url" alt="" class="icon">
@@ -49,7 +49,7 @@ export default defineComponent({
 </script>
 
 <style>
-.track {
+.track-preview {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,14 +58,14 @@ export default defineComponent({
     height: 100%;
 }
 
-.track .preview {
+.track-preview .preview {
     width: 20%;
     height: 20%;
     margin-top: 0.5dvw;
     filter: invert(100%);
 }
 
-.track h4 {
+.track-preview h4 {
     margin: 0;
     padding: 0;
 }

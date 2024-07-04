@@ -8,10 +8,6 @@
                     <select name="type" v-model="searchType">
                         <option @change="searchSpotify" v-for="type in allowedTypes" :key="type" :value="type"> {{ type }}</option>                
                     </select>
-                    <!-- <div v-for="type in allowedTypes" :key="type">
-                        <input type="checkbox" :id="type" :value="type" v-model="searchTypes">
-                        <label :for="type"> {{ type }}</label>
-                    </div> -->
                 </div>
                 <input type="submit" value="Search Spotify!">
             </form>
