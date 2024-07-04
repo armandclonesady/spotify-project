@@ -1,13 +1,13 @@
 <template>
     <router-link :to="{name: 'track', params: {id: trackId}}">
         <div class="track">
+            <p class="index"> {{ index }}</p>
             <div class="track-first-info">
-                <p class="index"> {{ index }}</p>
-                <img v-if="hasImage" :src="track.album.images[0].url" class="track-icon">
+                <img v-if="track.image" :src="track.image" class="track-icon">
                 <p> {{ track.name }} </p>
             </div>
-            <div class="track-name">
-                <p> {{ track.album.name }} </p>
+            <div class="track-name" v-if="track.album">
+                <p> {{ track.album }} </p>
             </div>
             <div class="track-popularity">
                 <p> {{ lenght }}</p>
@@ -19,12 +19,13 @@
 <script lang="ts">
 import { msToTime } from '@/functions/utils';
 import { defineComponent, ref } from 'vue'
+import type { Track } from '@/functions/spotifyTypes';
 
 export default defineComponent({
     name: 'LongTrackComponent',
     props: {
         track: {
-            type: Object,
+            type: Object as () => Track,
             required: true
         },
         index: {
@@ -33,10 +34,11 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const hasImage = ref<boolean>(props.track.album.images);
         const lenght = ref<string>(msToTime(props.track.duration_ms));
         const trackId = ref<string>(props.track.id);
-        return { props, hasImage, trackId, lenght };
+
+        //console.log(props.track);
+        return { props, trackId, lenght };
     },
 })
 </script>
@@ -44,7 +46,7 @@ export default defineComponent({
 <style>
 .track {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 0.1fr 1fr 1fr 0.5fr;
     background: var(--primary-50);
     padding: 10px 5px;
     margin: 5px 0;
@@ -62,14 +64,19 @@ export default defineComponent({
 .track-first-info {
     display: flex;
     flex-direction: row;
+    grid-column: 2;
 }
 
 .track-popularity {
+    grid-column: -1;
     display: flex;
     justify-content: end;
 }
 
 .index {
+    display: flex;
+    align-items: start;
+    grid-column: 1;
     padding: 0 10px;  
     color: rgba(255, 255, 255, 0.5);
 }

@@ -45,4 +45,21 @@ const convertFollowers = (followers: string): string => {
     }
 }
 
-export {allowedTypes, convertDate, intToMonth, shortenName, nameTooLong, msToTime, convertFollowers};
+const getTotalAlbumLenght = (albums: Array<any>) => {
+    let total = 0;
+    albums.forEach((track: any) => {
+        total += track.duration_ms;
+    });
+    return total;
+}
+
+export {
+    allowedTypes, 
+    convertDate, 
+    intToMonth, 
+    shortenName, 
+    nameTooLong, 
+    msToTime, 
+    convertFollowers, 
+    getTotalAlbumLenght
+};

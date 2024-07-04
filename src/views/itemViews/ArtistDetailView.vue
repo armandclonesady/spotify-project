@@ -3,8 +3,8 @@
         <div class="generalInfo">
             <div class="icon-name">
                 <a  :href="artistData.external_urls.spotify">
-                    <img v-if="artistData.images[0]" :src="artistData.images[0].url" alt="artist image" class="artist-icon">
-                    <img v-else src="../../assets/default-artist-pfp.jpg" alt="artist-icon" class="artist-icon">
+                    <img v-if="artistData.images[0]" :src="artistData.images[0].url" alt="artist image" class="artist-icon canHover">
+                    <img v-else src="../../assets/default-artist-pfp.jpg" alt="artist-icon" class="artist-icon canHover">
                 </a>
                 <h1> {{ artistData.name }} </h1>
             </div>
@@ -37,6 +37,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { getArtist, getArtistAlbums, getArtistTracks } from '@/functions/spotifyFunctions';
 import { convertFollowers } from '@/functions/utils';
 import LongTrackComponent from './components/LongTrackComponent.vue';
+import type { Track } from '@/functions/spotifyTypes';
 import router from '@/router';
 
 export default defineComponent({
@@ -51,7 +52,7 @@ export default defineComponent({
     },
     setup(props) {
         const artistData = ref<any>();
-        const popularTracks = ref<any>();
+        const popularTracks = ref<Array<Track>>([]);
         const albums = ref<any>();
         const followers = ref<string>('');
         const isHovering = ref<boolean>(false);
@@ -66,7 +67,23 @@ export default defineComponent({
                 }
                 artistData.value = data;
                 albums.value = albumsdata;
-                popularTracks.value = tracksdata.tracks;
+
+                tracksdata.tracks.forEach((track: any) => {
+                    let trackItem: Track = {
+                        id: track.id,
+                        name: track.name,
+                        album: track.album.name,
+                        artists: track.artists,
+                        duration_ms: track.duration_ms,
+                    };
+                    if (track.album.images[0]) {
+                        const image = track.album.images[0].url;
+                        trackItem.image = image;
+                    }
+                    popularTracks.value.push(trackItem);
+                    console.log(popularTracks.value);
+                });
+
                 followers.value = convertFollowers(artistData.value.followers.total);
             }
         }
@@ -116,7 +133,6 @@ export default defineComponent({
 .generalInfo:hover, .albums:hover, .related-artists:hover {
     background: var(--spotify-green);
     transition: all 0.5s;
-
 }
 
 .icon-name {
@@ -135,12 +151,5 @@ export default defineComponent({
     padding:0 40px;
     object-fit: cover;
     border-radius: 100%;
-    transition: all 1s;
-}
-
-.artist-icon:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    transition: all 0.5s;
 }
 </style>

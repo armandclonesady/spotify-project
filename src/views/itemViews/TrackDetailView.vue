@@ -9,15 +9,15 @@
         <div class="author-info">
             <div class="track-icon-name">
                 <router-link :to="{name: 'album', params: {id: trackData.album.id}}">
-                    <img v-if="trackData.album.images[0]" :src="trackData.album.images[0].url" alt="artist image" class="track-detail-icon">
-                    <img v-else src="../../assets/default-artist-pfp.jpg" alt="artist-icon" class="artist-icon">
+                    <img v-if="trackData.album.images[0]" :src="trackData.album.images[0].url" alt="artist image" class="track-detail-icon canHover">
+                    <img v-else src="../../assets/default-artist-pfp.jpg" alt="artist-icon" class="track-detail-icon canHover">
                 </router-link>
                 <h3> {{ trackData.album.name }} </h3>
             </div>
             <div class="track-icon-name" v-if="artistData">
                 <router-link :to="{name: 'artist', params: {id: artistData.id}}">
-                    <img v-if="artistData.images[0]" :src="artistData.images[0].url" alt="artist image" class="artist-icon">
-                    <img v-else src="../../assets/default-artist-pfp.jpg" alt="artist-icon" class="artist-icon">
+                    <img v-if="artistData.images[0]" :src="artistData.images[0].url" alt="artist image" class="artist-icon canHover">
+                    <img v-else src="../../assets/default-artist-pfp.jpg" alt="artist-icon" class="artist-icon canHover">
                 </router-link>
                 <h2> {{ artistData.name }} </h2>
             </div>
@@ -101,13 +101,6 @@ export default defineComponent({
     height: 20dvh;
     padding:0 40px;
     object-fit: cover;
-    transition: all 1s;
-}
-
-.track-detail-icon:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    transition: all 0.5s;
 }
 
 .author-info {
@@ -121,5 +114,15 @@ export default defineComponent({
     padding: 20px;
     margin: 1dvh 0;
     width: 100%;
+}
+
+.canHover {
+    transition: all 1s;
+}
+
+.canHover:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.5s;
 }
 </style>

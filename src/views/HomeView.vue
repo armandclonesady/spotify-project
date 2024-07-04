@@ -25,3 +25,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+  .home a {
+    color: var(--spotify-green);
+  }
+
+  .home a:hover {
+    text-decoration: underline;
+    
+  }
+</style>

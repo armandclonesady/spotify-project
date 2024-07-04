@@ -19,7 +19,6 @@ export default defineComponent({
   },
   setup() {
     getToken();
-    console.log("access_token: ", localStorage.getItem('spotify_access_token'));
     return { getToken };
   }
 });

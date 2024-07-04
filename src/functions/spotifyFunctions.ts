@@ -17,7 +17,6 @@ const getToken = async () => {
         body: 'grant_type=client_credentials'
     }));
     const data = await results.json();
-    console.log(data);
     localStorage.setItem('spotify_access_token', data.access_token);
 }
 
@@ -86,5 +85,17 @@ const getRequest = async (id: string | undefined, url: string): Promise<any> => 
     return false;
 }
 
+const getAlbum = async (id: string | undefined): Promise<any> => {
+    return getRequest(id, `https://api.spotify.com/v1/albums/${id}`);
+}
+
+const getArtistImage = async (id: string | undefined): Promise<any> => {
+    const data = await getArtist(id);
+    if (!data) {
+        return false
+    }
+    return data.images[0].url;
+}
+
  
-export { getToken, getSearch, getArtist, getArtistTracks, getArtistAlbums, getTrack};
+export { getToken, getSearch, getArtist, getArtistTracks, getArtistAlbums, getTrack, getAlbum, getArtistImage};
