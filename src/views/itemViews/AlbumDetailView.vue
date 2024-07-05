@@ -68,9 +68,13 @@ export default defineComponent({
                 length.value = msToTime(getTotalAlbumLenght(data.tracks.items));
                 artistImage.value = await getArtistImage(data.artists[0].id);
                 albumData.value.tracks.items.forEach((track: any) => {
-                    let artistsList: Array<string> = [];
-                    track.artists.forEach((artist: { name: string; }) => {
-                        artistsList.push(artist.name);
+                    let artistsList: Array<any> = [];
+                        track.artists.forEach((artist: { name: string; id: string; }) => {
+                        const artistItem = {
+                            name: artist.name,
+                            id: artist.id,
+                        }
+                        artistsList.push(artistItem);
                     });
                     let trackItem: Track = {
                         id: track.id,

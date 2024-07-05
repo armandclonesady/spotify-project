@@ -3,7 +3,7 @@ export type Track = {
     name: string,
     image?: string,
     album?: string,
-    artists?: Array<string>,
+    artists?: Array<any>,
     duration_ms: number,
 }
 

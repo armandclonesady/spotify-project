@@ -14,15 +14,12 @@
                 </router-link>
                 <h3> {{ trackData.album.name }} </h3>
             </div>
-            <div class="track-icon-name" v-if="artistData">
-                <router-link :to="{name: 'artist', params: {id: artistData.id}}">
-                    <img v-if="artistData.images[0]" :src="artistData.images[0].url" alt="artist image" class="artist-icon canHover">
+            <div class="track-icon-name" v-for="artist in artistData" :key="artist.id">
+                <router-link :to="{name: 'artist', params: {id: artist.id}}">
+                    <img v-if="artist.images[0]" :src="artist.images[0].url" alt="artist image" class="artist-icon canHover">
                     <img v-else src="../../assets/default-artist-pfp.jpg" alt="artist-icon" class="artist-icon canHover">
                 </router-link>
-                <h2> {{ artistData.name }} </h2>
-            </div>
-            <div v-else>
-                <h2> {{ trackData.artists[0].name }}</h2>
+                <h2> {{ artist.name }} </h2>
             </div>
         </div>
     </div>
@@ -50,7 +47,7 @@ export default defineComponent({
     },
     setup(props) {
         const trackData = ref<any>();
-        const artistData = ref<any>();
+        const artistData = ref<Array<any>>([]);
         const lenght = ref<string>('');
         const getTrackData = async() => {
             if (props.id) {
@@ -67,13 +64,17 @@ export default defineComponent({
         }
         const getArtistData = async() => {
             if (trackData.value) {
-                const data = await getArtist(trackData.value.artists[0].id);
+                trackData.value.artists.forEach(async(artist: any) =>{
+                const data = await getArtist(artist.id);
                 if (!data) {
                     router.push({ name: 'unknown' });
                     return;
-                }
-                artistData.value = data;
-                console.log(artistData.value);
+                } else {
+                    console.log(data);
+                    artistData.value.push(data);
+                    console.log(artistData.value);
+                } 
+                });
             }
         }
         onMounted(() => {
@@ -97,8 +98,7 @@ export default defineComponent({
 .track-detail-icon{
     display: flex;
     justify-items: start;
-    width: 20dvh;
-    height: 20dvh;
+    width: 30dvh;
     padding:0 40px;
     object-fit: cover;
 }
@@ -109,8 +109,9 @@ export default defineComponent({
     border-radius: 25px;
     display: flex;
     flex-direction: row;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding: 20px;
     margin: 1dvh 0;
     width: 100%;

@@ -7,15 +7,15 @@
                 <div class="name-artists">
                     <div v-if="track.artists">
                         <p>
-                            {{ track.name }} <br> 
-                            <span v-for="(artist, index) in track.artists" :key="index">
-                                {{ artist }} <span v-if="track.artists.at(index+1)"> - </span>
+                            <span class="track-name">{{ track.name }}</span> <br> 
+                            <span v-for="(artist, index) in track.artists" :key="index" class="track-artist-name">
+                                <router-link :to="{name: 'artist', params: {id: artist.id}}">{{ artist.name }}</router-link> <span v-if="track.artists.at(index+1)"> - </span>
                             </span>
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="track-name" v-if="track.album">
+            <div class="album-name" v-if="track.album">
                 <p> {{ track.album }} </p>
             </div>
             <div class="track-popularity">
@@ -97,12 +97,21 @@ export default defineComponent({
     margin-right: 10px;
 }
 
-.track-name {
+.album-name {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 0 10px;
+}
+
+.track-name {
+    font-weight: bold;
+}
+
+.track-artist-name {
+    font-size: 0.8em;
+    font-style: italic;
 }
 
 .name-artists {

@@ -60,18 +60,15 @@ export default defineComponent({
                         }
                     }
                 }
-                console.log(searchResults.value);
             });
         }
 
         const handleSubmit = async() => {
-                router.push({query: {search: searchQuerry.value, type: searchType.value}});
+                router.replace({query: {search: searchQuerry.value, type: searchType.value}});
                 searchSpotify();
             }
 
         if (router.currentRoute.value.query.search && router.currentRoute.value.query.type) {
-            console.log(router.currentRoute.value.query.search);
-            console.log(router.currentRoute.value.query.type);
             searchQuerry.value = router.currentRoute.value.query.search as string;
             searchType.value = router.currentRoute.value.query.type as string;
             searchSpotify();

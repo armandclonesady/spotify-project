@@ -39,13 +39,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import { getArtist, getArtistAlbums, getArtistTracks } from '@/functions/spotifyFunctions';
 import { convertFollowers } from '@/functions/utils';
 import LongTrackComponent from './components/LongTrackComponent.vue';
 import SimplifiedAlbumComponent from './components/SimplifiedAlbumComponent.vue';
 import type { Album, Track } from '@/functions/spotifyTypes';
 import router from '@/router';
+import { onBeforeRouteUpdate } from 'vue-router';
 
 export default defineComponent({
     name: 'ArtistDetailView',
@@ -75,9 +76,13 @@ export default defineComponent({
                 }
                 artistData.value = data;
                 tracksdata.tracks.forEach((track: any) => {
-                    let artistsList: Array<string> = [];
-                    track.artists.forEach((artist: { name: string; }) => {
-                        artistsList.push(artist.name);
+                    let artistsList: Array<any> = [];
+                    track.artists.forEach((artist: { name: string; id: string; }) => {
+                        const artistItem = {
+                            name: artist.name,
+                            id: artist.id,
+                        }
+                        artistsList.push(artistItem);
                     });
                     let trackItem: Track = {
                         id: track.id,
@@ -113,6 +118,12 @@ export default defineComponent({
         onMounted(() => {
             getArtistData();
         });
+
+        onBeforeRouteUpdate((to, from, next) => {
+            console.log("test");
+            getArtistData();
+        });
+
         return { props, artistData, albums, popularTracks, followers, isHovering};
     },
 })

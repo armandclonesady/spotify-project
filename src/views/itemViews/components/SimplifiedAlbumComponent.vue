@@ -21,7 +21,6 @@ export default defineComponent({
     },
     setup(props) {
         const albumId = ref<string>(props.album.id);
-        console.log(props.album);
         
         return { props, albumId };
     },
