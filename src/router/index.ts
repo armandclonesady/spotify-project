@@ -18,6 +18,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/browse',
     name: 'browse',
     component: BrowseView,
+    props: true
   },
   {
     path: '/album/:id',

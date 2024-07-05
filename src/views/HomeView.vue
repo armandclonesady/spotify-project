@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
+    <h1>Clon<span class="i">i</span>fy</h1>
     <h2> Welcome to your one-stop shop to use <a href="https://fr.wikipedia.org/wiki/Spotify">Spotify</a> by NOT using <a href="https://open.spotify.com/">Spotify</a>!</h2>
     <p> 
       This project is made to use the <a href="https://www.instagram.com/spotify/">Spotify</a> <a href="https://developer.spotify.com/documentation/web-api">API</a>, using <a href="https://vuejs.org/">VueJS</a> 3 and <a href="https://www.typescriptlang.org/">TypeScript</a> in the context of my training.
@@ -34,5 +34,18 @@ export default defineComponent({
   .home a:hover {
     text-decoration: underline;
     
+  }
+
+  .home h1 {
+    font-size: 4em;
+    margin-bottom: 0;
+    font-variant-caps: all-petite-caps;
+    letter-spacing: 5px;
+    cursor: default;
+  }
+
+  .i {
+    color: var(--spotify-green);
+    font-variant-caps:normal;
   }
 </style>

@@ -33,7 +33,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/functions/eventBus.js"  ],
   "exclude": [
     "node_modules"
   ]

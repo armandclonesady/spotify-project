@@ -16,3 +16,7 @@ export type Album = {
     image?: string,
     release_date: string,
 }
+
+export type Artist = {
+    
+}

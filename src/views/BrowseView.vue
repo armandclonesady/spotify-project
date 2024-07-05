@@ -2,11 +2,11 @@
     <div class="browse">
         <h1>Browse</h1>
         <div class="controls">
-            <form @submit.prevent="searchSpotify">
+            <form @submit.prevent="handleSubmit">
                 <div class="o">
                     <input type="text" v-model="searchQuerry" placeholder="Search for an artist, album, or song...">
                     <select name="type" v-model="searchType">
-                        <option @change="searchSpotify" v-for="type in allowedTypes" :key="type" :value="type"> {{ type }}</option>                
+                        <option @change="handleSubmit" v-for="type in allowedTypes" :key="type" :value="type"> {{ type }}</option>                
                     </select>
                 </div>
                 <input type="submit" value="Search Spotify!">
@@ -23,10 +23,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onUpdated, ref } from 'vue';
+import { computed, defineComponent, onUpdated, ref, watchEffect } from 'vue';
 import { allowedTypes } from '@/functions/utils';
 import { getSearch, getToken } from '@/functions/spotifyFunctions';
 import ItemsView from './ItemsView.vue';
+import router from '@/router';
 
 export default defineComponent({
     name: 'BrowseView',
@@ -63,7 +64,19 @@ export default defineComponent({
             });
         }
 
-        return { searchQuerry, allowedTypes, searchType, errorMessage , searchResults, searchSpotify, searchTypes };
+        const handleSubmit = async() => {
+                router.push({query: {search: searchQuerry.value, type: searchType.value}});
+                searchSpotify();
+            }
+
+        if (router.currentRoute.value.query.search && router.currentRoute.value.query.type) {
+            console.log(router.currentRoute.value.query.search);
+            console.log(router.currentRoute.value.query.type);
+            searchQuerry.value = router.currentRoute.value.query.search as string;
+            searchType.value = router.currentRoute.value.query.type as string;
+            searchSpotify();
+        }
+        return { searchQuerry, allowedTypes, searchType, errorMessage , searchResults, handleSubmit, searchTypes };
     },
 });
 </script>
