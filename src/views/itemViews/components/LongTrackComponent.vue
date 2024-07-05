@@ -4,7 +4,16 @@
             <p class="index"> {{ index }}</p>
             <div class="track-first-info">
                 <img v-if="track.image" :src="track.image" class="track-icon">
-                <p> {{ track.name }} </p>
+                <div class="name-artists">
+                    <div v-if="track.artists">
+                        <p>
+                            {{ track.name }} <br> 
+                            <span v-for="(artist, index) in track.artists" :key="index">
+                                {{ artist }} <span v-if="track.artists.at(index+1)"> - </span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="track-name" v-if="track.album">
                 <p> {{ track.album }} </p>
@@ -64,6 +73,7 @@ export default defineComponent({
 .track-first-info {
     display: flex;
     flex-direction: row;
+    align-items: center;
     grid-column: 2;
 }
 
@@ -75,15 +85,15 @@ export default defineComponent({
 
 .index {
     display: flex;
-    align-items: start;
+    align-items: center;
     grid-column: 1;
     padding: 0 10px;  
     color: rgba(255, 255, 255, 0.5);
 }
 
 .track-icon {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     margin-right: 10px;
 }
 
@@ -93,5 +103,9 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     padding: 0 10px;
+}
+
+.name-artists {
+    text-align: start;
 }
 </style>

@@ -21,12 +21,18 @@
         </div>
         <div class="albums">
             <h2> Albums </h2>
-            <div class="album-list" v-if="albums">
+            <div class="album-list gridContainer" v-if="albums">
+                <div v-for="album in albums" :key="album.id" class="gridObject">
+                    <SimplifiedAlbumComponent :album="album"/>
+                </div>
+            </div>
+            <div v-else>
+                <p> loading...</p>
             </div>
         </div>
         <div class="related-artists">
             <h2> Related Artists </h2>
-            <div class="album-list">
+            <div class="artist-list">
             </div>
         </div>
     </div>
@@ -37,7 +43,8 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { getArtist, getArtistAlbums, getArtistTracks } from '@/functions/spotifyFunctions';
 import { convertFollowers } from '@/functions/utils';
 import LongTrackComponent from './components/LongTrackComponent.vue';
-import type { Track } from '@/functions/spotifyTypes';
+import SimplifiedAlbumComponent from './components/SimplifiedAlbumComponent.vue';
+import type { Album, Track } from '@/functions/spotifyTypes';
 import router from '@/router';
 
 export default defineComponent({
@@ -48,12 +55,13 @@ export default defineComponent({
         }
     },
     components: {
-        LongTrackComponent
+        LongTrackComponent,
+        SimplifiedAlbumComponent,
     },
     setup(props) {
         const artistData = ref<any>();
         const popularTracks = ref<Array<Track>>([]);
-        const albums = ref<any>();
+        const albums = ref<Array<Album>>([]);
         const followers = ref<string>('');
         const isHovering = ref<boolean>(false);
         const getArtistData = async() => {
@@ -66,14 +74,16 @@ export default defineComponent({
                     return;
                 }
                 artistData.value = data;
-                albums.value = albumsdata;
-
                 tracksdata.tracks.forEach((track: any) => {
+                    let artistsList: Array<string> = [];
+                    track.artists.forEach((artist: { name: string; }) => {
+                        artistsList.push(artist.name);
+                    });
                     let trackItem: Track = {
                         id: track.id,
                         name: track.name,
                         album: track.album.name,
-                        artists: track.artists,
+                        artists: artistsList,
                         duration_ms: track.duration_ms,
                     };
                     if (track.album.images[0]) {
@@ -81,9 +91,22 @@ export default defineComponent({
                         trackItem.image = image;
                     }
                     popularTracks.value.push(trackItem);
-                    console.log(popularTracks.value);
                 });
-
+                albumsdata.items.forEach((album: any) => {
+                    let artistsList: Array<string> = [];
+                    album.artists.forEach((artist: { name: string; }) => {
+                        artistsList.push(artist.name);
+                    });
+                    let albumItem: Album = {
+                        id: album.id,
+                        name: album.name,
+                        type: album.album_type,
+                        artists: artistsList,
+                        image: album.images[0].url,
+                        release_date: album.release_date,
+                    };
+                    albums.value.push(albumItem);
+                });
                 followers.value = convertFollowers(artistData.value.followers.total);
             }
         }
@@ -101,7 +124,7 @@ export default defineComponent({
     width: 100%;
 }
 
-.generalInfo, .albums, .related-artists {
+.generalInfo, .related-artists {
     background: var(--spotify-green-50);
     transition: all 0.5s;
     border-radius: 25px;
@@ -117,7 +140,7 @@ export default defineComponent({
     width: 100%;
 }
 
-.popularTracks {
+.popularTracks, .albums {
     background: var(--spotify-green-50);
     transition: all 0.5s;
     border-radius: 25px;
@@ -127,10 +150,10 @@ export default defineComponent({
     justify-content: space-between;
     padding: 20px;
     margin: 1dvh 0;
-
+    overflow: hidden;
 }
 
-.generalInfo:hover, .albums:hover, .related-artists:hover {
+.generalInfo:hover, .related-artists:hover {
     background: var(--spotify-green);
     transition: all 0.5s;
 }
@@ -151,5 +174,12 @@ export default defineComponent({
     padding:0 40px;
     object-fit: cover;
     border-radius: 100%;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(6, [col-start] 1fr [col-end]);
+    gap: 2dvw;
+    width: 100%;
 }
 </style>

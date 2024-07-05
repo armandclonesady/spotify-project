@@ -35,7 +35,7 @@ export default defineComponent({
     },
     setup() {
         const searchQuerry = ref<string>('');
-        const searchType = ref<string>('');
+        const searchType = ref<string>('track');
         const searchTypes = ref<Array<string>>([]);
         const errorMessage = ref<string>('');
         const searchResults = ref<Array<any>>([]);
