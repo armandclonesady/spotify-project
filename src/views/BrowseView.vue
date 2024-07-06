@@ -35,7 +35,6 @@ export default defineComponent({
     },
     setup() {
         const searchQuerry = ref<string>('');
-        const searchType = ref<string>('track');
         const searchTypes = ref<Array<string>>([]);
         const errorMessage = ref<string>('');
         const searchResults = ref<Array<any>>([]);
@@ -84,7 +83,6 @@ export default defineComponent({
 
             searchQuerry.value = search;
             searchTypes.value = Array.isArray(type) ? type : [type];
-            searchSpotify();
         }
 
         const handleButton = async(event: any) => {
@@ -96,7 +94,7 @@ export default defineComponent({
             }
         }
 
-        return { searchQuerry, allowedTypes, searchType, errorMessage , searchResults, handleSubmit, searchTypes, handleButton };
+        return { searchQuerry, allowedTypes, errorMessage , searchResults, handleSubmit, searchTypes, handleButton };
     },
 });
 </script>
