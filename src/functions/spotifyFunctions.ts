@@ -20,15 +20,12 @@ const getToken = async () => {
     localStorage.setItem('spotify_access_token', data.access_token);
 }
 
-const getSearch = async (query: string, type: string): Promise<any> => {
+const getSearch = async (query: string, type: Array<string>): Promise<any> => {
     if (localStorage.getItem('spotify_access_token')) {
-        console.log("getSearch function called");
         if (query && type) {
-
             const body: URLSearchParams = new URLSearchParams();
             body.append('q', query);
-            body.append('type', type);
-
+            body.append('type', type.join(','));
             const results: Response = (await fetch(`https://api.spotify.com/v1/search?` + new URLSearchParams({
                 q: query,
                 type: type + ',track',

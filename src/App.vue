@@ -18,7 +18,6 @@ export default defineComponent({
   components: {
   },
   setup() {
-    getToken();
     return { getToken };
   }
 });
