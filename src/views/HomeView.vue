@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <h1>Clon<span class="i">i</span>fy</h1>
-    <h2> Welcome to your one-stop shop to use <a href="https://fr.wikipedia.org/wiki/Spotify">Spotify</a> by NOT using <a href="https://open.spotify.com/">Spotify</a>!</h2>
+    <h2> Clon<span class="i">i</span>fy is not just a <a href="https://fr.wikipedia.org/wiki/Spotify">Spotify</a> clone, it's better</h2>
+    <h3> Welcome to your one-stop shop to use <a href="https://fr.wikipedia.org/wiki/Spotify">Spotify</a> by NOT using <a href="https://open.spotify.com/">Spotify</a>!</h3>
     <p> 
       This project is made to use the <a href="https://www.instagram.com/spotify/">Spotify</a> <a href="https://developer.spotify.com/documentation/web-api">API</a>, using <a href="https://vuejs.org/">VueJS</a> 3 and <a href="https://www.typescriptlang.org/">TypeScript</a> in the context of my training.
       This project will eventually let you browse <a href="https://x.com/Spotify">Spotify</a>'s catalog aswell as let you play songs directly from it.
@@ -39,6 +40,14 @@ export default defineComponent({
   .home h1 {
     font-size: 4em;
     margin-bottom: 0;
+    font-variant-caps: all-petite-caps;
+    letter-spacing: 5px;
+    cursor: default;
+  }
+
+  .home h2 {
+    font-size: 2em;
+    margin-top: 0;
     font-variant-caps: all-petite-caps;
     letter-spacing: 5px;
     cursor: default;
