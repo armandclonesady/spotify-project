@@ -1,7 +1,7 @@
 <template>
     <router-link :to="{name: 'track', params: {id: trackId}}">
         <div class="track">
-            <p class="index"> {{ index }}</p>
+            <p class="index" v-if="index"> {{ index }}</p>
             <div class="track-first-info">
                 <img v-if="track.image" :src="track.image" class="track-icon">
                 <div class="name-artists">
@@ -39,7 +39,7 @@ export default defineComponent({
         },
         index: {
             type: Number,
-            required: true
+            required: false
         }
     },
     setup(props) {

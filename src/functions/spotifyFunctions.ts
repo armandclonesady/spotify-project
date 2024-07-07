@@ -22,8 +22,8 @@ const getToken = async () => {
 
 const getSearch = async (query: string, type: Array<string>): Promise<any> => {
     console.log("getSearch function called");
-    console.log(query);
-    console.log(type);
+    // console.log(query);
+    // console.log(type);
     if (localStorage.getItem('spotify_access_token')) {
         if (query && type) {
             const body: URLSearchParams = new URLSearchParams();
@@ -40,7 +40,8 @@ const getSearch = async (query: string, type: Array<string>): Promise<any> => {
                 
             }));
             if (results.status === 200) {
-                const data: Promise<any> = await results.json();           
+                const data: Promise<any> = await results.json();
+                console.log("everything is fine");           
                 return data;
             }
         }

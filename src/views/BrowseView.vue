@@ -1,5 +1,5 @@
 <template>
-    <div class="browse">
+    <div class="browse fullwidth">
         <h1>Browse</h1>
         <div class="controls">
             <form @submit.prevent="handleSubmit">
@@ -44,6 +44,7 @@ export default defineComponent({
                 searchResults.value = [];
                 errorMessage.value = '';
                 if (response !== undefined) {
+                    console.log("response is not undefined");
                     let computedResults: Array<any> = [];
                     allowedTypes.forEach((type) => {
                         if (response[type+"s"] !== undefined) {
@@ -93,6 +94,8 @@ export default defineComponent({
                 searchTypes.value.splice(searchTypes.value.indexOf(clickedType), 1);
             }
         }
+
+        handleSubmit();
 
         return { searchQuerry, allowedTypes, errorMessage , searchResults, handleSubmit, searchTypes, handleButton };
     },
