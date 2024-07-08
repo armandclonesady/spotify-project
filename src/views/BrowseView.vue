@@ -104,7 +104,7 @@ export default defineComponent({
 
 <style>
 .type-button {
-    background-color: var(--primary);
+    background-color: var(--primary-50);
     color: white;
     border: none;
     padding: 5px 15px;
@@ -114,6 +114,6 @@ export default defineComponent({
 }
 
 .activated {
-    background-color: var(--primary-50);
+    background-color: var(--primary);
 }
 </style>

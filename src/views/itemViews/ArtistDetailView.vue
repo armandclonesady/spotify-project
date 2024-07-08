@@ -13,21 +13,49 @@
         <div class="popularTracks">
             <h2> Popular Tracks </h2>
             <div class="track-list" v-if="popularTracks">
-                <LongTrackComponent :track="track" :index="index+1" v-for="(track, index) in popularTracks" :key="index"/>
+                <div v-if="showAllTrack">
+                    <div v-for="(track, index) in popularTracks" :key="index">
+                        <LongTrackComponent :track="track" :index="index+1"/>
+                    </div>
+                </div>
+                <div v-else>
+                    <div v-for="(track, index) in popularTracks.slice(0, previewLimit)" :key="index">
+                        <LongTrackComponent :track="track" :index="index+1"/>
+                    </div>
+                </div>
             </div>
             <div v-else>
-                <p> loading...</p>
+                    <p> loading...</p>
+                </div>
+            <div class="button see-more" @click="showAllTrack = false" v-if="showAllTrack">
+                <h4> - See less </h4>
+            </div>
+            <div class="button see-more" @click="showAllTrack = true" v-else>
+                <h4> + See more </h4>
             </div>
         </div>
         <div class="albums">
             <h2> Albums </h2>
-            <div class="album-list gridContainer" v-if="albums">
-                <div v-for="album in albums" :key="album.id" class="gridObject">
-                    <SimplifiedAlbumComponent :album="album"/>
+            <div v-if="albums">
+                <div v-if="showAllAlbums" class="album-list gridContainer">
+                    <div v-for="(album, index) in albums" :key="index" class="gridObject">
+                        <SimplifiedAlbumComponent :album="album"/>
+                    </div>
+                </div>
+                <div v-else class="album-list gridContainer">
+                    <div v-for="(album, index) in albums" :key="index" class="gridObject">
+                        <SimplifiedAlbumComponent :album="album" v-if="index < previewLimit"/>
+                    </div>
                 </div>
             </div>
             <div v-else>
                 <p> loading...</p>
+            </div>
+            <div class="button see-more" @click="showAllAlbums = false" v-if="showAllAlbums">
+                <h4> - See less </h4>
+            </div>
+            <div class="button see-more" @click="showAllAlbums = true" v-else>
+                <h4> + See more </h4>
             </div>
         </div>
         <div class="related-artists">
@@ -41,12 +69,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { getArtist, getArtistAlbums, getArtistTracks } from '@/functions/spotifyFunctions';
-import { convertFollowers } from '@/functions/utils';
+import { convertFollowers, previewLimit } from '@/functions/utils';
 import LongTrackComponent from './components/LongTrackComponent.vue';
 import SimplifiedAlbumComponent from './components/SimplifiedAlbumComponent.vue';
 import type { Album, Track } from '@/functions/spotifyTypes';
 import router from '@/router';
-import { onBeforeRouteUpdate } from 'vue-router';
 
 export default defineComponent({
     name: 'ArtistDetailView',
@@ -65,8 +92,13 @@ export default defineComponent({
         const albums = ref<Array<Album>>([]);
         const followers = ref<string>('');
         const isHovering = ref<boolean>(false);
+        const showAllTrack = ref<boolean>(false);
+        const showAllAlbums = ref<boolean>(false);
         const getArtistData = async() => {
             if (props.id) {
+                albums.value = [];
+                popularTracks.value = [];
+                artistData.value = null;
                 const data = await getArtist(props.id);
                 const albumsdata = await getArtistAlbums(props.id);
                 const tracksdata = await getArtistTracks(props.id);
@@ -119,12 +151,11 @@ export default defineComponent({
             getArtistData();
         });
 
-        onBeforeRouteUpdate((to, from, next) => {
-            console.log("test");
+        watch(props, () => {
             getArtistData();
         });
 
-        return { props, artistData, albums, popularTracks, followers, isHovering};
+        return { props, artistData, albums, popularTracks, followers, isHovering, previewLimit, showAllTrack, showAllAlbums};
     },
 })
 </script>
@@ -192,5 +223,14 @@ export default defineComponent({
     grid-template-columns: repeat(6, [col-start] 1fr [col-end]);
     gap: 2dvw;
     width: 100%;
+}
+
+.see-more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    padding: 0 2dvw;
+    cursor: pointer;
 }
 </style>
