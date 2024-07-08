@@ -7,6 +7,9 @@
     <button @click="getToken"> reload token</button>
   </nav>
   <router-view/>
+  <footer>
+    <h3>Clon<span class="i">i</span>fy</h3>
+  </footer>
 </template>
 
 <script lang="ts">

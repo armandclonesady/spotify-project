@@ -45,7 +45,7 @@ export default defineComponent({
     cursor: default;
   }
 
-  .home h2 {
+  .home h2, footer h3 {
     font-size: 2em;
     margin-top: 0;
     font-variant-caps: all-petite-caps;

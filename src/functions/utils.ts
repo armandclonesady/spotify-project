@@ -1,5 +1,6 @@
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const nameLimit = 20;
+const previewLimit = 4;
 const  allowedTypes : Array<string> = ['album', 'artist', 'playlist', 'track'];
 
 const convertDate = (date: string, precision: string) => {
@@ -55,6 +56,7 @@ const getTotalAlbumLenght = (albums: Array<any>) => {
 
 export {
     allowedTypes, 
+    previewLimit,
     convertDate, 
     intToMonth, 
     shortenName, 
