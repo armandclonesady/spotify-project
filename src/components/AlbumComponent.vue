@@ -1,5 +1,5 @@
 <template>
-        <router-link :to="{ name: 'album', params: {id: album.id}}" class="item">
+        <router-link :to="{ name: 'album', params: {id: album.id}}">
             <div class="album">
                 <div class="coverArt">
                     <img v-if="album.image" :src="album.image" alt="cover art">
@@ -10,7 +10,7 @@
                         <p> Various Artists </p>
                     </div>
                     <div v-else>
-                        <p> <span v-for="(artist, index) in artistList" :key="index"> {{ artist.name }} </span> </p>
+                        <p> <span v-for="(artist, index) in artistList" :key="index"> {{ artist }} <span v-if="artistList.at(index+1)"> - </span> </span> </p>
                     </div>
                 </div>
             </div>

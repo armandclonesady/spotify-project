@@ -1,4 +1,4 @@
-import { Track, ArtistShort, Album } from "./spotifyTypes";
+import { Track, ArtistShort, Album, Artist, Playlist } from './spotifyTypes';
 
 function parseTracks(searchResults: Array<any>) : Array<Track> {
     const res: Array<Track> = [];
@@ -29,6 +29,24 @@ function parseTracks(searchResults: Array<any>) : Array<Track> {
     return res;
 }
 
+
+function parseArtists(searchResults: Array<any>) : Array<Artist> {
+    const res: Array<Artist> = [];
+    searchResults.forEach((artist: any) => {
+        const artistObj: Artist = {
+            id: artist.id,
+            name: artist.name,
+            genres: artist.genres,
+            popularity: artist.popularity,
+        };
+        if (artist.images) {
+            artistObj.image = artist.images[0].url;
+        }
+        res.push(artistObj);
+    });
+    return res;
+}
+
 function parseAlbums(searchResults: Array<any>) : Array<Album> {
     const res: Array<Album> = [];
     searchResults.forEach((album: any) => {
@@ -51,4 +69,20 @@ function parseAlbums(searchResults: Array<any>) : Array<Album> {
     return res;
 }
 
-export { parseTracks, parseAlbums }
+function parsePlaylists(searchResults: Array<any>) : Array<Playlist> {
+    const res: Array<Playlist> = [];
+    searchResults.forEach((playlist: any) => {
+        const playlistObj: Playlist = {
+            id: playlist.id,
+            name: playlist.name,
+            owner: playlist.owner.display_name,
+        };
+        if (playlist.images) {
+            playlistObj.image = playlist.images[0].url;
+        }
+        res.push(playlistObj);
+    });
+    return res;
+}
+
+export { parseTracks, parseAlbums, parseArtists, parsePlaylists }

@@ -2,8 +2,8 @@
     <div class="playlist">
         <h4> {{ playlist.name }}</h4>
         <div class="coverArt">
-            <img v-if="playlist.images[0] !== undefined" :src="playlist.images[0].url" alt="" class="icon">
-            <p>by {{ playlist.owner.display_name}}</p>
+            <img v-if="playlist.image !== undefined" :src="playlist.image" alt="" class="icon">
+            <p>by {{ playlist.owner}}</p>
         </div>
     </div>
 </template>

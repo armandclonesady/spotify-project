@@ -29,18 +29,22 @@
                 <hr class="quarter-hr"> <img src="../assets/list-icon.png" :class="{'list-activated': showArtist}" class="list-icon"> <h2> Artists </h2> <hr>
             </div>
             <div v-if="showArtist">
-                <div class="artist-results results" v-if="showAllArtist">
-                    <div class="item" v-for="artist in artistResults" :key="artist.id">
-                        <ItemPreview :result="artist"></ItemPreview>
+                <div v-if="showAllArtist">
+                    <div class="artist-results results">
+                        <div class="item" v-for="artist in artistResults" :key="artist.id">
+                            <ArtistComponent :artist="artist"/>
+                        </div>
                     </div>
                     <div class="centered button"  @click="showAllArtist = false">
                         <h3> See less</h3>  
                     </div>
                 </div>
                 <div v-else>
-                    <div class="artist-results results">
-                        <div v-for="(artist, index) in artistResults" :key="artist.id">
-                            <ItemPreview :result="artist" v-if="index < previewLimit"/>
+                    <div>
+                        <div class="artist-results results" >
+                            <div v-for="(artist, index) in artistResults" :key="artist.id">
+                                <ArtistComponent :artist="artist" v-if="index < previewLimit"/>
+                            </div>
                         </div>
                     </div>
                     <div class="centered button"  @click="showAllArtist = true">
@@ -55,18 +59,22 @@
                 <hr class="quarter-hr"> <img src="../assets/list-icon.png" :class="{'list-activated': showAlbum}" class="list-icon"> <h2> Albums </h2> <hr>
             </div>
             <div v-if="showAlbum">
-                <div class="album-results results" v-if="showAllAlbum">
-                    <div class="item" v-for="album in albumResults" :key="album.id">
-                        <AlbumComponent :album="album"/>
-                    </div>
-                    <div class="centered button"  @click="showAllAlbum = false">
-                        <h3> See less</h3>  
+                <div v-if="showAllAlbum">
+                    <div class="album-results results">
+                        <div class="item" v-for="album in albumResults" :key="album.id">
+                            <AlbumComponent :album="album"/>
+                        </div>
+                        <div class="centered button"  @click="showAllAlbum = false">
+                            <h3> See less</h3>  
+                        </div>
                     </div>
                 </div>
                 <div v-else>
-                    <div class="album-results results">
-                        <div v-for="(album, index) in albumResults" :key="album.id">
-                            <AlbumComponent :album="album" v-if="index < previewLimit"/>
+                    <div>
+                        <div class="album-results results">
+                            <div v-for="(album, index) in albumResults" :key="album.id">
+                                <AlbumComponent :album="album" v-if="index < previewLimit"/>
+                            </div>
                         </div>
                     </div>
                     <div class="centered button"  @click="showAllAlbum = true">
@@ -83,7 +91,7 @@
             <div v-if="showPlaylist">
                 <div class="playlist-results results" v-if="showAllPlaylist">
                     <div class="item" v-for="playlist in playlistResults" :key="playlist.id">
-                        <ItemPreview :result="playlist"/>
+                        <PlaylistComponent :playlist="playlist"/>
                     </div>
                     <div class="centered button"  @click="showAllPlaylist = false">
                         <h3> See less</h3>  
@@ -92,7 +100,7 @@
                 <div  v-else>
                     <div class="playlist-results results">
                         <div v-for="(playlist, index) in playlistResults" :key="playlist.id">
-                            <ItemPreview :result="playlist" v-if="index < previewLimit"/>
+                            <PlaylistComponent :playlist="playlist" v-if="index < previewLimit"/>
                         </div>
                     </div>
                     <div class="centered button"  @click="showAllPlaylist = true">
@@ -107,11 +115,12 @@
 <script lang="ts">
 import { allowedTypes, previewLimit } from '@/functions/utils';
 import { Track, Album } from '@/functions/spotifyTypes';
-import ItemPreview from '@/views/ItemPreview.vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import LongTrackComponent from './itemViews/components/LongTrackComponent.vue';
-import { parseAlbums, parseTracks } from '@/functions/parseBrowseData';
+import { parseAlbums, parseArtists, parsePlaylists, parseTracks } from '@/functions/parseBrowseData';
 import AlbumComponent from '@/components/AlbumComponent.vue';
+import ArtistComponent from '@/components/ArtistComponent.vue';
+import PlaylistComponent from '@/components/PlaylistComponent.vue';
 
 export default defineComponent({
     props: {
@@ -121,9 +130,10 @@ export default defineComponent({
         }
     },
     components: {
-        ItemPreview,
         LongTrackComponent,
-        AlbumComponent
+        AlbumComponent,
+        ArtistComponent,
+        PlaylistComponent
     },
 
     setup(props) {
@@ -152,7 +162,8 @@ export default defineComponent({
 
             trackResults.value = parseTracks(searchResults.value.filter((item) => item.type === "track"));
             albumResults.value = parseAlbums(searchResults.value.filter((item) => item.type === "album"));
-
+            artistResults.value = parseArtists(searchResults.value.filter((item) => item.type === "artist"));
+            playlistResults.value = parsePlaylists(searchResults.value.filter((item) => item.type === "playlist"));
             // searchResults.value.forEach((item) => {
             //     if (item.type === "album") {
             //         albumResults.value.push(item);

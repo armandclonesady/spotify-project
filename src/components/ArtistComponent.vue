@@ -1,21 +1,26 @@
 <template>
-    <div class="artist">
-        <div class="icon">
-            <img v-if="artist.images[0]" :src="artist.images[0].url" alt="icon">
-            <img v-else src="../assets/default-artist-pfp.jpg" alt="icon">
+    <router-link :to="{name: 'artist', params:{id: artist.id}}">
+        <div class="item">
+            <div class="artist">
+                <div class="icon">
+                    <img v-if="artist.image" :src="artist.image" alt="icon">
+                    <img v-else src="../assets/default-artist-pfp.jpg" alt="icon">
+                </div>
+                <h3> {{ artist.name }}</h3>
+                <p> Artist </p>
+            </div>
         </div>
-        <h3> {{ artist.name }}</h3>
-        <p> Artist </p>
-    </div>
+    </router-link>
 </template>
 
 <script lang="ts">
+import { Artist } from '@/functions/spotifyTypes';
 import { defineComponent } from 'vue'
 
 export default defineComponent({
     props: {
         artist: {
-            type: Object,
+            type: Object as () => Artist,
             required: true
         }
     },
