@@ -14,9 +14,11 @@ export type Album = {
     artists?: Array<string>,
     tracks?: Array<Track>,
     image?: string,
-    release_date: string,
+    release_date?: string,
 }
 
-export type Artist = {
-    
+export type ArtistShort = {
+    id: string,
+    name: string,
+    image?: string,
 }

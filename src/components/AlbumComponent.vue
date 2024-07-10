@@ -1,35 +1,45 @@
 <template>
-        <div class="album">
-            <div class="coverArt">
-                <img v-if="album.images[0].url" :src="album.images[0].url" alt="cover art">
+        <router-link :to="{ name: 'album', params: {id: album.id}}" class="item">
+            <div class="album">
+                <div class="coverArt">
+                    <img v-if="album.image" :src="album.image" alt="cover art">
+                </div>
+                <div class="info">
+                    <h4> {{ albumName }}</h4>
+                    <div v-if="artistList.length > 3">
+                        <p> Various Artists </p>
+                    </div>
+                    <div v-else>
+                        <p> <span v-for="(artist, index) in artistList" :key="index"> {{ artist.name }} </span> </p>
+                    </div>
+                </div>
             </div>
-            <div class="info">
-                <h4> {{ albumName }}</h4>
-                <p> {{ artist }}</p>
-            </div>
-        </div>
+        </router-link>
 </template>
 <script lang="ts">
 import { convertDate } from '@/functions/utils';
 import { ref } from 'vue';
 import { nameTooLong, shortenName } from '@/functions/utils';
+import { Album } from '../functions/spotifyTypes';
 export default {
     props: {
         album: {
-            type: Object,
+            type: Object as () => Album,
             required: true
         }
     },
     setup(props: any) {
         const albumName = ref<string>(props.album.name);
-        const artist = ref<string>(props.album.artists[0].name);
+        const artistList = ref<Array<string>>(props.album.artists);
         if (nameTooLong(albumName.value)) {
             albumName.value = shortenName(albumName.value);
         }
-        if (nameTooLong(artist.value)) {
-            artist.value = shortenName(artist.value);
+        for (let i = 0 ; i < artistList.value.length; i++) {
+            if (nameTooLong(artistList.value[i])) {
+                artistList.value[i] = shortenName(artistList.value[i]);
+            }
         }
-        return  { props, albumName, artist, convertDate };
+        return  { props, albumName, artistList, convertDate };
     }
 }
 </script>

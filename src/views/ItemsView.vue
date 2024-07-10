@@ -57,7 +57,7 @@
             <div v-if="showAlbum">
                 <div class="album-results results" v-if="showAllAlbum">
                     <div class="item" v-for="album in albumResults" :key="album.id">
-                        <ItemPreview :result="album"></ItemPreview>
+                        <AlbumComponent :album="album"/>
                     </div>
                     <div class="centered button"  @click="showAllAlbum = false">
                         <h3> See less</h3>  
@@ -66,7 +66,7 @@
                 <div v-else>
                     <div class="album-results results">
                         <div v-for="(album, index) in albumResults" :key="album.id">
-                            <ItemPreview :result="album" v-if="index < previewLimit"/>
+                            <AlbumComponent :album="album" v-if="index < previewLimit"/>
                         </div>
                     </div>
                     <div class="centered button"  @click="showAllAlbum = true">
@@ -110,6 +110,8 @@ import { Track, Album } from '@/functions/spotifyTypes';
 import ItemPreview from '@/views/ItemPreview.vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import LongTrackComponent from './itemViews/components/LongTrackComponent.vue';
+import { parseAlbums, parseTracks } from '@/functions/parseBrowseData';
+import AlbumComponent from '@/components/AlbumComponent.vue';
 
 export default defineComponent({
     props: {
@@ -120,7 +122,8 @@ export default defineComponent({
     },
     components: {
         ItemPreview,
-        LongTrackComponent
+        LongTrackComponent,
+        AlbumComponent
     },
 
     setup(props) {
@@ -129,7 +132,7 @@ export default defineComponent({
         const albumResults = ref<Array<any>>([]);
         const artistResults = ref<Array<any>>([]);
         const playlistResults = ref<Array<any>>([]);
-        const trackResults = ref<Array<any>>([]);
+        const trackResults = ref<Array<Track>>([]);
 
             
         const showAlbum = ref(true);
@@ -146,37 +149,39 @@ export default defineComponent({
             albumResults.value = [];
             artistResults.value = [];
             playlistResults.value = [];
-            trackResults.value = [];
 
-            searchResults.value.forEach((item) => {
-                if (item.type === "album") {
-                    albumResults.value.push(item);
-                } else if (item.type === "artist") {
-                    artistResults.value.push(item);
-                } else if (item.type === "playlist") {
-                    playlistResults.value.push(item);
-                } else if (item.type === "track") {
-                    let artistsList: Array<any> = [];
-                    item.artists.forEach((artist: { name: string; id: string; }) => {
-                        const artistItem = {
-                            name: artist.name,
-                            id: artist.id,
-                        }
-                        artistsList.push(artistItem);
-                    });
-                    let track: Track = {
-                        id: item.id,
-                        name: item.name,
-                        artists: artistsList,
-                        album: item.album.name,
-                        duration_ms: item.duration_ms,
-                    };
-                    if (item.album.images[0]) {
-                        track.image = item.album.images[0].url;
-                    }
-                    trackResults.value.push(track);
-                }
-            });
+            trackResults.value = parseTracks(searchResults.value.filter((item) => item.type === "track"));
+            albumResults.value = parseAlbums(searchResults.value.filter((item) => item.type === "album"));
+
+            // searchResults.value.forEach((item) => {
+            //     if (item.type === "album") {
+            //         albumResults.value.push(item);
+            //     } else if (item.type === "artist") {
+            //         artistResults.value.push(item);
+            //     } else if (item.type === "playlist") {
+            //         playlistResults.value.push(item);
+            //     } else if (item.type === "track") {
+            //         let artistsList: Array<any> = [];
+            //         item.artists.forEach((artist: { name: string; id: string; }) => {
+            //             const artistItem = {
+            //                 name: artist.name,
+            //                 id: artist.id,
+            //             }
+            //             artistsList.push(artistItem);
+            //         });
+            //         let track: Track = {
+            //             id: item.id,
+            //             name: item.name,
+            //             artists: artistsList,
+            //             album: item.album.name,
+            //             duration_ms: item.duration_ms,
+            //         };
+            //         if (item.album.images[0]) {
+            //             track.image = item.album.images[0].url;
+            //         }
+            //         trackResults.value.push(track);
+            //     }
+            // });
             console.log("albumResults: ", albumResults.value);
             console.log("artistResults: ", artistResults.value);
             console.log("playlistResults: ", playlistResults.value);
