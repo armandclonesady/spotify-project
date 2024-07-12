@@ -31,7 +31,7 @@
             <div v-if="showArtist">
                 <div v-if="showAllArtist">
                     <div class="artist-results results">
-                        <div class="item" v-for="artist in artistResults" :key="artist.id">
+                        <div v-for="artist in artistResults" :key="artist.id">
                             <ArtistComponent :artist="artist"/>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
             <div v-if="showAlbum">
                 <div v-if="showAllAlbum">
                     <div class="album-results results">
-                        <div class="item" v-for="album in albumResults" :key="album.id">
+                        <div v-for="album in albumResults" :key="album.id">
                             <AlbumComponent :album="album"/>
                         </div>
                         <div class="centered button"  @click="showAllAlbum = false">
@@ -90,14 +90,14 @@
             </div>
             <div v-if="showPlaylist">
                 <div class="playlist-results results" v-if="showAllPlaylist">
-                    <div class="item" v-for="playlist in playlistResults" :key="playlist.id">
+                    <div v-for="playlist in playlistResults" :key="playlist.id">
                         <PlaylistComponent :playlist="playlist"/>
                     </div>
-                    <div class="centered button"  @click="showAllPlaylist = false">
-                        <h3> See less</h3>  
-                    </div>
                 </div>
-                <div  v-else>
+                <div class="centered button"  @click="showAllPlaylist = false">
+                    <h3> See less</h3>  
+                </div>
+                <div v-if="!showAllPlaylist">
                     <div class="playlist-results results">
                         <div v-for="(playlist, index) in playlistResults" :key="playlist.id">
                             <PlaylistComponent :playlist="playlist" v-if="index < previewLimit"/>
@@ -303,6 +303,8 @@ export default defineComponent({
     margin: 1px;
     color: var(--white);
     transition: all 0.5s;
+    height: 40dvh;
+    width: 40dvh;
 }
 
 .item:hover {

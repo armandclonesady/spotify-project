@@ -30,12 +30,17 @@ export default defineComponent({
 <style>
 
 .simplified-album { 
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-content: center;
     background: var(--primary-50);
     padding: 10px 5px;
     padding: 1dvh;
     border-radius: 5px;
     transition: all 0.5s;
-    max-height: 30dvh;
+    height: 100%;
+    width: 100%;
 }
 
 .simplified-album:hover {
