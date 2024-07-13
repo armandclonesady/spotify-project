@@ -94,7 +94,7 @@
                         <PlaylistComponent :playlist="playlist"/>
                     </div>
                 </div>
-                <div class="centered button"  @click="showAllPlaylist = false">
+                <div class="centered button"  @click="showAllPlaylist = false" v-if="showAllPlaylist">
                     <h3> See less</h3>  
                 </div>
                 <div v-if="!showAllPlaylist">
