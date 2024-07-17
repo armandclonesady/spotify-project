@@ -39,7 +39,7 @@ function parseArtists(searchResults: Array<any>) : Array<Artist> {
             genres: artist.genres,
             popularity: artist.popularity,
         };
-        if (artist.images) {
+        if (artist.images && artist.images.length > 0) {
             artistObj.image = artist.images[0].url;
         }
         res.push(artistObj);

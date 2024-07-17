@@ -4,7 +4,7 @@
         <div class="controls">
             <form @submit.prevent="handleSubmit">
                 <div class="o">
-                    <input type="text" v-model="searchQuerry" placeholder="Search for an artist, album, or song...">
+                    <input type="text" v-model="searchQuerry" placeholder="Search for an artist, album, or song..." @keydown.prevent.enter="handleSubmit">
                     <div>
                         <button v-for="type in allowedTypes" :key="type" @click.prevent="handleButton" :value="type" :class="{'activated': searchTypes.includes(type)}" class="type-button"> {{ type }}</button>
                     </div>
